@@ -22,6 +22,7 @@ services:
       - DB_POSTGRESDB_SCHEMA=public 
       # SSL configuration for Supabase (recommended)
       - DB_POSTGRESDB_SSL_REJECT_UNAUTHORIZED=false
+      - N8N_RUNNERS_ENABLED=true
       # Optional: Custom encryption key (recommended for security)
       - N8N_ENCRYPTION_KEY=${N8N_ENCRYPTION_KEY}
     # Keep volume for local files like encryption keys and temp data
