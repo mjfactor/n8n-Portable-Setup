@@ -1,0 +1,23 @@
+{
+    "name": "n8n-supabase-keepalive",
+    "version": "1.0.0",
+    "description": "Automated database ping to keep Supabase database active",
+    "main": "scripts/ping-database.js",
+    "scripts": {
+        "ping-db": "node scripts/ping-database.js",
+        "test-ping": "node scripts/ping-database.js"
+    },
+    "dependencies": {
+        "pg": "^8.11.3"
+    },
+    "devDependencies": {},
+    "keywords": [
+        "n8n",
+        "supabase",
+        "database",
+        "keepalive",
+        "automation"
+    ],
+    "author": "Your Name",
+    "license": "MIT"
+}

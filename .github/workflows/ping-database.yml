@@ -1,0 +1,39 @@
+name: Keep Supabase Database Active
+
+on:
+  schedule:
+    # Run every 6 days at 9:00 AM UTC (cron: minute hour day-of-month month day-of-week)
+    - cron: '0 9 */6 * *'
+  workflow_dispatch: # Allow manual triggering for testing
+
+jobs:
+  ping-database:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+    
+    - name: Install dependencies
+      run: npm install pg
+    
+    - name: Ping Supabase Database
+      env:
+        SUPABASE_DB_HOST: ${{ secrets.SUPABASE_DB_HOST }}
+        SUPABASE_DB_USER: ${{ secrets.SUPABASE_DB_USER }}
+        SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+        SUPABASE_DB_PORT: ${{ secrets.SUPABASE_DB_PORT }}
+      run: node scripts/ping-database.js
+    
+    - name: Report Success
+      if: success()
+      run: echo "✅ Database ping successful - Supabase database kept active"
+    
+    - name: Report Failure
+      if: failure()
+      run: echo "❌ Database ping failed - Check database connectivity"
