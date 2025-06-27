@@ -1,0 +1,35 @@
+services:
+  n8n:
+    # The official n8n Docker image.
+    image: docker.n8n.io/n8nio/n8n
+    # The name of the container.
+    container_name: n8n
+    # Sets the restart policy. 'unless-stopped' will restart the container
+    # automatically unless it has been explicitly stopped.
+    restart: unless-stopped
+    # Maps port 5678 on the host to port 5678 in the container.
+    ports:
+      - "5678:5678"
+    # Environment variables for Supabase PostgreSQL configuration
+    environment:
+      # Database configuration for Supabase PostgreSQL
+      - DB_TYPE=postgresdb
+      - DB_POSTGRESDB_DATABASE=postgres
+      - DB_POSTGRESDB_HOST=${SUPABASE_DB_HOST}
+      - DB_POSTGRESDB_PORT=5432
+      - DB_POSTGRESDB_USER=${SUPABASE_DB_USER}
+      - DB_POSTGRESDB_PASSWORD=${SUPABASE_DB_PASSWORD}
+      - DB_POSTGRESDB_SCHEMA=public
+      # SSL configuration for Supabase (recommended)
+      - DB_POSTGRESDB_SSL_REJECT_UNAUTHORIZED=false
+      # Optional: Custom encryption key (recommended for security)
+      - N8N_ENCRYPTION_KEY=${N8N_ENCRYPTION_KEY}
+    # Keep volume for local files like encryption keys and temp data
+    volumes:
+      - n8n_data:/home/node/.n8n
+
+# Defines the named volume used by the n8n service.
+# This will now store only local files like encryption keys, 
+# while database data goes to Supabase
+volumes:
+  n8n_data:
